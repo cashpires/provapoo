@@ -61,7 +61,7 @@ public class App {
         int codigo = Integer.parseInt(scanner.nextLine());
         Produto p = buscarProduto(codigo);
         if (p != null) {
-            System.out.println("Produto: " + p.nome + " | Valor: R$" + p.valor + " | Estoque: " + p.quantidade);
+            System.out.println("Produto: " + p.getNome() + " | Valor: R$" + p.getValor() + " | Estoque: " + p.getQuantidade());
         } else {
             System.out.println("Produto não encontrado.");
         }
@@ -71,10 +71,10 @@ public class App {
         System.out.println("\nLISTAGEM DE PRODUTOS");
         double soma = 0, max = Double.MIN_VALUE, min = Double.MAX_VALUE;
         for (Produto p : produtos) {
-            System.out.println("Código: " + p.codigo + " | Nome: " + p.nome + " | Valor: R$" + p.valor + " | Estoque: " + p.quantidade);
-            soma += p.valor;
-            if (p.valor > max) max = p.valor;
-            if (p.valor < min) min = p.valor;
+            System.out.println("Código: " + p.getCodigo() + " | Nome: " + p.getNome() + " | Valor: R$" + p.getValor() + " | Estoque: " + p.getQuantidade());
+            soma += p.getValor();
+            if (p.getValor() > max) max = p.getValor();
+            if (p.getValor() < min) min = p.getValor();
         }
         if (!produtos.isEmpty()) {
             double media = soma / produtos.size();
@@ -96,12 +96,12 @@ public class App {
         }
         System.out.print("Quantidade para venda: ");
         int qtd = Integer.parseInt(scanner.nextLine());
-        if (qtd > p.quantidade) {
+        if (qtd > p.getQuantidade()) {
             System.out.println("Estoque insuficiente.");
             return;
         }
 
-        p.quantidade -= qtd;
+        p.setQuantidade(p.getQuantidade() - qtd);
         vendas.add(new Venda(dataVenda, p, qtd));
         System.out.println("Venda realizada com sucesso!");
     }
@@ -118,10 +118,10 @@ public class App {
         double totalPeriodo = 0;
         int qtdVendas = 0;
         for (Venda v : vendas) {
-            if (!v.data.isBefore(inicio) && !v.data.isAfter(fim)) {
+            if (!v.getData().isBefore(inicio) && !v.getData().isAfter(fim)) {
                 double total = v.getTotal();
                 System.out.printf("Data: %s | Produto: %s | Quantidade: %d | Unitário: R$%.2f | Total: R$%.2f\n",
-                        v.data.format(formatter), v.produto.nome, v.quantidade, v.produto.valor, total);
+                        v.getData().format(formatter), v.getProduto().getNome(), v.getQuantidade(), v.getProduto().getValor(), total);
                 totalPeriodo += total;
                 qtdVendas++;
             }
@@ -135,7 +135,7 @@ public class App {
 
     static Produto buscarProduto(int codigo) {
         for (Produto p : produtos) {
-            if (p.codigo == codigo) return p;
+            if (p.getCodigo() == codigo) return p;
         }
         return null;
     }
