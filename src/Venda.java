@@ -1,9 +1,9 @@
 import java.time.LocalDate;
 
 public class Venda {
-    LocalDate data;
-    Produto produto;
-    int quantidade;
+    private LocalDate data;
+    private Produto produto;
+    private int quantidade;
 
     public Venda(LocalDate data, Produto produto, int quantidade) {
         this.data = data;
@@ -11,7 +11,11 @@ public class Venda {
         this.quantidade = quantidade;
     }
 
+    public LocalDate getData() { return data; }
+    public Produto getProduto() { return produto; }
+    public int getQuantidade() { return quantidade; }
+
     public double getTotal() {
-        return produto.valor * quantidade;
+        return produto.getValor() * quantidade;
     }
 }
